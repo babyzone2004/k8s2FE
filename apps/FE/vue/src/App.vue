@@ -2,23 +2,29 @@
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
 import { useCounterStore } from '@/stores/counter'
-
+import { useScoreQuery } from '../graphql/types'
 const counter = useCounterStore()
 
 function clickEvt() {
   counter.increment();
 }
+
+
+const { onResult } = useScoreQuery({ userId: '123' });
+onResult((queryResult: any) => {
+  console.log(queryResult.data)
+})
 </script>
 
 <template>
   <header>
     <!-- <img
-                                                                            alt="Vue logo"
-                                                                                      class="logo"
-                                                                                      src="@/assets/logo.svg"
-                                                                                      width="125"
-                                                                                      height="125"
-                                                                                    /> -->
+                                                                                      alt="Vue logo"
+                                                                                                class="logo"
+                                                                                                src="@/assets/logo.svg"
+                                                                                                width="125"
+                                                                                                height="125"
+                                                                                              /> -->
     <button @click="clickEvt">click <span>{{ counter.count }}</span></button>
     <div class="wrapper">
       <HelloWorld msg="You did it!" />

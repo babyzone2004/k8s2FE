@@ -17,6 +17,8 @@
 ## Backend
 
 ### Node-BFF
+1. typegraphql
+2. 
 
 ### Account
 
@@ -25,12 +27,16 @@
 ### Game
 
 交互中的云端上数据服务
+1. score storage.get,update
 
 ### Rank
 
 排行服务
 
 ### MongoDb
+1. score
+2. user
+3. 
 
 ## Redis
 

@@ -1,0 +1,15 @@
+schema: ../../Server/BFF/schema.gql
+documents: ./document.graphql
+generates:
+  ./graphql/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-vue-apollo
+    config:
+      vueCompositionApiImportFrom: vue
+      skipTypename: true
+      maybeValue: T | undefined
+hooks:
+  afterOneFileWrite:
+    - prettier --write
