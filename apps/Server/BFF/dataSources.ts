@@ -29,7 +29,7 @@ class BaseAPI extends RESTDataSource {
   }
 
   async getScore(userId: string): Promise<Score> {
-    let res = await this.get('user', 'userId=' + userId);
+    let res = await this.get('score/' + userId);
     console.log('res', res);
     res = res.data;
     // 此处对res进行数据格式化

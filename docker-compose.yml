@@ -1,0 +1,27 @@
+version: "1"
+
+services:
+  dev:
+    container_name: dev
+    image: dev:v1
+    # restart: always
+    # ports:
+    # - 29900:29900/udp
+    # - 8388:8388
+    # - 8388:8388/udp
+    volumes:
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ./:/workspaces/wood:cached
+    environment:
+      SERVICE_VERSION: "v2"
+      # IP地址改为宿主主机IP
+      MONGO_DB_URL: "mongodb://192.168.33.26:27017/test"
+    command: /bin/sh -c "while sleep 1000; do :; done"
+  mongodb:
+    container_name: mongodb
+    image: mongo:v1
+    # restart: always
+    ports:
+      # - 29900:29900/udp
+      - 27017:27017
+      - 27017:27017/udp

@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
-import { useCounterStore } from '@/stores/counter'
-import { useScoreQuery } from '../graphql/types'
-const counter = useCounterStore()
+import { useCounterStore } from "@/stores/counter";
+import { useScoreQuery } from "../graphql/types";
+const counter = useCounterStore();
 
 function clickEvt() {
   counter.increment();
 }
 
-
-const { onResult } = useScoreQuery({ userId: '123' });
+const { onResult } = useScoreQuery({ userId: "123" });
 onResult((queryResult: any) => {
-  console.log(queryResult.data)
-})
+  console.log(queryResult.data);
+});
 </script>
 
 <template>
@@ -25,7 +24,9 @@ onResult((queryResult: any) => {
                                                                                                 width="125"
                                                                                                 height="125"
                                                                                               /> -->
-    <button @click="clickEvt">click <span>{{ counter.count }}</span></button>
+    <button @click="clickEvt">
+      click <span>{{ counter.count }}</span>
+    </button>
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
 

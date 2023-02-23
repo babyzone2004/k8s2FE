@@ -1,7 +1,7 @@
-const user = require('./score.json')
+const score = require("./score.json");
 
 module.exports = () => {
-    return {
-      user
-    };
+  return {
+    score,
   };
+};
