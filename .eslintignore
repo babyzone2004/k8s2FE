@@ -5,12 +5,4 @@ node_modules/
 dist/
 release/
 
-# Generate files
-**/web/graphql/*
-**/web/auto-imports.d.ts
-**/web/components.d.ts
-
 # Test files
-**/cypress/reports/*
-**/web/cypress/screenshots/*
-**/web/cypress/videos/*

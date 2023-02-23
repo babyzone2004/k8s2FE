@@ -212,7 +212,7 @@ var server = http.createServer(handleRequest);
 process.on("SIGTERM", function () {
   console.log("SIGTERM received");
   server.close(function () {
-    process.exit(0);
+    process.exit("0");
   });
 });
 

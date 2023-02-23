@@ -1,0 +1,16 @@
+{
+  "name": "rank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --inspect index.js 9081"
+  },
+  "dependencies": {
+    "ioredis": "^5.3.1",
+    "mongodb": "^3.6.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
