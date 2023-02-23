@@ -7,13 +7,17 @@ const port = parseInt(process.argv[2]);
 const url = process.env.MONGO_DB_URL;
 
 const server = http.createServer(async (req, res) => {
+  console.time("redis");
   const rank = await redis.get("rank");
+  console.timeEnd("redis");
   console.log("rank.length", rank);
   if (rank) {
+    console.time("write respon");
     returnRes(res, {
       data: JSON.parse(rank),
       code: 200,
     });
+    console.timeEnd("write respon");
     return;
   }
   MongoClient.connect(url, function (err, client) {

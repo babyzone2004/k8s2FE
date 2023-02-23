@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
 import { useCounterStore } from "@/stores/counter";
 import { useScoreQuery } from "../graphql/types";
 const counter = useCounterStore();
-
+let score = ref(0);
 function clickEvt() {
   counter.increment();
 }
 
 const { onResult } = useScoreQuery({ userId: "123" });
 onResult((queryResult: any) => {
+  score.value = queryResult.data.score.value;
   console.log(queryResult.data);
 });
 </script>
@@ -18,18 +20,18 @@ onResult((queryResult: any) => {
 <template>
   <header>
     <!-- <img
-                                                                                      alt="Vue logo"
-                                                                                                class="logo"
-                                                                                                src="@/assets/logo.svg"
-                                                                                                width="125"
-                                                                                                height="125"
-                                                                                              /> -->
+                                                                                                  alt="Vue logo"
+                                                                                                            class="logo"
+                                                                                                            src="@/assets/logo.svg"
+                                                                                                            width="125"
+                                                                                                            height="125"
+                                                                                                          /> -->
     <button @click="clickEvt">
       click <span>{{ counter.count }}</span>
     </button>
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-
+      <span>score {{ score }}</span>
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>

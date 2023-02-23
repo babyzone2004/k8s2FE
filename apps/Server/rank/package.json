@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node --inspect index.js 9081"
+    "start": "node index.js 9081",
+    "start:debug": "node --inspect index.js 9081"
   },
   "dependencies": {
     "ioredis": "^5.3.1",
