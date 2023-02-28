@@ -1,0 +1,107 @@
+---
+##################################################################################################
+# game service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: game
+  labels:
+    app: game
+    service: game
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: game
+---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: bookinfo-game
+#   labels:
+#     account: game
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-v1
+  labels:
+    app: game
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: game
+        version: v1
+    spec:
+      # serviceAccountName: bookinfo-game
+      nodeSelector:
+        cloud.google.com/compute-class: Scale-Out
+        kubernetes.io/arch: arm64
+      containers:
+      - name: game
+        image: asia-east1-docker.pkg.dev/wood-378110/wodd/game:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 9080
+        env:
+        - name: MONGO_DB_URL
+          value: "mongodb+srv://babyzone2004:605959@cluster0.lgbzn.mongodb.net/test"
+        - name: service_version
+          value: "v2"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-v2
+  labels:
+    app: game
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: game
+        version: v2
+    spec:
+      # serviceAccountName: bookinfo-game
+      nodeSelector:
+        cloud.google.com/compute-class: Scale-Out
+        kubernetes.io/arch: arm64
+      containers:
+      - name: game
+        image: asia-east1-docker.pkg.dev/wood-378110/wodd/game:v2
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 9080
+        env:
+        - name: service_version
+          value: "v1"
+---

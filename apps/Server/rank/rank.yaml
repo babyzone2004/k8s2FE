@@ -42,7 +42,7 @@ spec:
         app: rank
         version: v1
     spec:
-      serviceAccountName: bookinfo-rank
+      # serviceAccountName: bookinfo-rank
       nodeSelector:
         cloud.google.com/compute-class: Scale-Out
         kubernetes.io/arch: arm64

@@ -130,16 +130,16 @@ dispatcher.onGet(/^\/score\/[0-9]*/, function (req, res) {
       if (random <= 0.5) {
         getLocalReviewsServiceUnavailable(res);
       } else {
-        getLocalReviewsSuccessful(res, productId);
+        getLocalReviewsSuccessful(res, userId);
       }
     } else if (process.env.SERVICE_VERSION === "v-delayed") {
       // in half of the cases delay for 7 seconds,
       // in another half proceed as usual
       var random = Math.random(); // returns [0,1]
       if (random <= 0.5) {
-        setTimeout(getLocalReviewsSuccessful, 7000, res, productId);
+        setTimeout(getLocalReviewsSuccessful, 7000, res, userId);
       } else {
-        getLocalReviewsSuccessful(res, productId);
+        getLocalReviewsSuccessful(res, userId);
       }
     } else if (
       process.env.SERVICE_VERSION === "v-unavailable" ||
@@ -148,10 +148,10 @@ dispatcher.onGet(/^\/score\/[0-9]*/, function (req, res) {
       if (unavailable) {
         getLocalReviewsServiceUnavailable(res);
       } else {
-        getLocalReviewsSuccessful(res, productId);
+        getLocalReviewsSuccessful(res, userId);
       }
     } else {
-      getLocalReviewsSuccessful(res, productId);
+      getLocalReviewsSuccessful(res, userId);
     }
   }
 });
@@ -184,9 +184,9 @@ function getLocalReviewsServiceUnavailable(res) {
   res.end(JSON.stringify({ error: "Service unavailable" }));
 }
 
-function getLocalReviews(productId) {
-  if (typeof userAddedRatings[productId] !== "undefined") {
-    return userAddedRatings[productId];
+function getLocalReviews(userId) {
+  if (typeof userAddedRatings[userId] !== "undefined") {
+    return userAddedRatings[userId];
   }
   return {
     data: {

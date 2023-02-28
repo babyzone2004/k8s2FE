@@ -1,48 +1,48 @@
 ---
 ##################################################################################################
-# bff service
+# vue service
 ##################################################################################################
 apiVersion: v1
 kind: Service
 metadata:
-  name: bff
+  name: vue
   labels:
-    app: bff
-    service: bff
+    app: vue
+    service: vue
 spec:
   type: LoadBalancer
   ports:
-  - port: 8099
+  - port: 80
     name: http
-    targetPort: 8099
+    targetPort: 80
   selector:
-    app: bff
+    app: vue
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bff-v1
+  name: vue-v1
   labels:
-    app: bff
+    app: vue
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bff
+      app: vue
       version: v1
   template:
     metadata:
       labels:
-        app: bff
+        app: vue
         version: v1
     spec:
       nodeSelector:
         cloud.google.com/compute-class: Scale-Out
         kubernetes.io/arch: arm64
       containers:
-      - name: bff
-        image: asia-east1-docker.pkg.dev/wood-378110/wodd/bff:v4
+      - name: vue
+        image: asia-east1-docker.pkg.dev/wood-378110/wodd/vue:v1
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -53,7 +53,4 @@ spec:
             memory: "128Mi"
         ports:
         - containerPort: 8099
-        env:
-          - name: CMD_RUN_ENV
-            value: "start:prod"
 ---

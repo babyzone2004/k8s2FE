@@ -10,11 +10,11 @@ function clickEvt() {
   counter.increment();
 }
 
-// const { onResult } = useScoreQuery({ userId: "123" });
-// onResult((queryResult: any) => {
-//   score.value = queryResult.data.score.value;
-//   console.log(queryResult.data);
-// });
+const { onResult: onScoreRes } = useScoreQuery({ userId: "123" });
+onScoreRes((queryResult: any) => {
+  score.value = queryResult.data.score.value;
+  console.log(queryResult.data);
+});
 const { onResult } = useRanksQuery();
 onResult((queryResult: any) => {
   // score.value = queryResult.data.score.value;
@@ -25,12 +25,12 @@ onResult((queryResult: any) => {
 <template>
   <header>
     <!-- <img
-                                                                                                          alt="Vue logo"
-                                                                                                                    class="logo"
-                                                                                                                    src="@/assets/logo.svg"
-                                                                                                                    width="125"
-                                                                                                                    height="125"
-                                                                                                                  /> -->
+                                                                                                            alt="Vue logo"
+                                                                                                                      class="logo"
+                                                                                                                      src="@/assets/logo.svg"
+                                                                                                                      width="125"
+                                                                                                                      height="125"
+                                                                                                                    /> -->
     <button @click="clickEvt">
       click <span>{{ counter.count }}</span>
     </button>

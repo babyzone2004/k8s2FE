@@ -1,0 +1,11 @@
+FROM dev:v1 as builder
+COPY . /home/build
+WORKDIR /home/build/apps/FE/vue
+RUN pnpm i && pnpm run build
+
+FROM nginx:1.23.3-alpine-slim
+# 复制nginx配置文件service.conf
+# COPY /packages/web/nginx.conf /etc/nginx/conf.d/default.conf
+# 复制静态文件到/usr/share/nginx/html，要求server.conf中配置的目录为/usr/share/nginx/html
+COPY --from=builder /home/build/apps/FE/vue/dist/. /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

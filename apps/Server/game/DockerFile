@@ -12,12 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-FROM node:12.18.1-slim
-
-#hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get install curl --no-install-recommends -y \
-    && rm -rf /var/lib/apt/lists/*
+FROM node:18.14-alpine3.16
 
 ARG service_version
 ENV SERVICE_VERSION ${service_version:-v1}
