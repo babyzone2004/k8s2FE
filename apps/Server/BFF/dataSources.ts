@@ -5,7 +5,7 @@ import {
   Request,
   Response
 } from 'apollo-datasource-rest';
-import { Score } from './typeDefs';
+import { Score, Ranks } from './typeDefs';
 
 class BaseAPI extends RESTDataSource {
   constructor () {
@@ -36,16 +36,44 @@ class BaseAPI extends RESTDataSource {
     // ...
     return res
   }
+  
+}
+
+class RankApi extends BaseAPI{
+  constructor () {
+    super();
+    this.baseURL = process.env.RANK_API;
+  }
+  async getRank(): Promise<Ranks> {
+    let res = await this.get('');
+    console.log('res', res);
+    res = res.data;
+    // 此处对res进行数据格式化
+    let arr = {
+      ranks: []
+    };
+    res.forEach((elem) => {
+      arr.ranks.push({
+        id: elem._id,
+        value: elem.rating,
+        userId: '0'
+      });
+    });
+    console.log('arr', arr);
+    return arr;
+  }
 }
 
 export interface Context {
   dataSources: {
-    baseApi: BaseAPI;
+    baseApi: BaseAPI,
+    rankApi: RankApi
   };
 }
 
 export default function () {
   return {
-    baseApi: new BaseAPI()
+    baseApi: new BaseAPI(),
+    rankApi: new RankApi()
   };
 }

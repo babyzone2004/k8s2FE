@@ -4,7 +4,8 @@ const Redis = require("ioredis");
 const redis = new Redis();
 
 const port = parseInt(process.argv[2]);
-const url = process.env.MONGO_DB_URL;
+// const url = process.env.MONGO_DB_URL;
+const url = "mongodb+srv://babyzone2004:605959@cluster0.lgbzn.mongodb.net/test";
 
 const server = http.createServer(async (req, res) => {
   console.time("redis");

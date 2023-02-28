@@ -13,3 +13,8 @@ export class Score {
   @Field()
   userId: string;
 }
+@ObjectType()
+export class Ranks {
+  @Field(() => [Score])
+  ranks: Array<typeof Score>;
+}

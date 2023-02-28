@@ -34,6 +34,7 @@
 排行服务
 
 ### MongoDb
+https://cloud.mongodb.com/
 1. score
 2. user
 3. 

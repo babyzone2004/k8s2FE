@@ -23,11 +23,16 @@ export type Scalars = {
 };
 
 export type Query = {
+  ranks: Ranks;
   score: Score;
 };
 
 export type QueryScoreArgs = {
   userId: Scalars["String"];
+};
+
+export type Ranks = {
+  ranks: Array<Score>;
 };
 
 export type Score = {
@@ -41,6 +46,12 @@ export type ScoreQueryVariables = Exact<{
 }>;
 
 export type ScoreQuery = { score: { value: number } };
+
+export type RanksQueryVariables = Exact<{ [key: string]: never }>;
+
+export type RanksQuery = {
+  ranks: { ranks: Array<{ id: string; value: number }> };
+};
 
 export const ScoreDocument = gql`
   query score($userId: String!) {
@@ -107,3 +118,60 @@ export function useScoreLazyQuery(
 }
 export type ScoreQueryCompositionFunctionResult =
   VueApolloComposable.UseQueryReturn<ScoreQuery, ScoreQueryVariables>;
+export const RanksDocument = gql`
+  query ranks {
+    ranks {
+      ranks {
+        id
+        value
+      }
+    }
+  }
+`;
+
+/**
+ * __useRanksQuery__
+ *
+ * To run a query within a Vue component, call `useRanksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRanksQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useRanksQuery();
+ */
+export function useRanksQuery(
+  options:
+    | VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+    | VueCompositionApi.Ref<
+        VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+      >
+    | ReactiveFunction<
+        VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+      > = {}
+) {
+  return VueApolloComposable.useQuery<RanksQuery, RanksQueryVariables>(
+    RanksDocument,
+    {},
+    options
+  );
+}
+export function useRanksLazyQuery(
+  options:
+    | VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+    | VueCompositionApi.Ref<
+        VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+      >
+    | ReactiveFunction<
+        VueApolloComposable.UseQueryOptions<RanksQuery, RanksQueryVariables>
+      > = {}
+) {
+  return VueApolloComposable.useLazyQuery<RanksQuery, RanksQueryVariables>(
+    RanksDocument,
+    {},
+    options
+  );
+}
+export type RanksQueryCompositionFunctionResult =
+  VueApolloComposable.UseQueryReturn<RanksQuery, RanksQueryVariables>;

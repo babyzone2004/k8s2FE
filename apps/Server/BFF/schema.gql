@@ -4,7 +4,12 @@
 # -----------------------------------------------
 
 type Query {
+  ranks: Ranks!
   score(userId: String!): Score!
+}
+
+type Ranks {
+  ranks: [Score!]!
 }
 
 type Score {

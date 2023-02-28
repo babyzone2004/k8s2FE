@@ -1,0 +1,59 @@
+---
+##################################################################################################
+# bff service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff
+  labels:
+    app: bff
+    service: bff
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8099
+    name: http
+    targetPort: 8099
+  selector:
+    app: bff
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-v1
+  labels:
+    app: bff
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: bff
+        version: v1
+    spec:
+      nodeSelector:
+        cloud.google.com/compute-class: Scale-Out
+        kubernetes.io/arch: arm64
+      containers:
+      - name: bff
+        image: asia-east1-docker.pkg.dev/wood-378110/wodd/bff:v3
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 8099
+        env:
+          - name: CMD_RUN_ENV
+            value: "start:prod"
+---

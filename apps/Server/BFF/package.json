@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "export $(cat .env.dev | xargs) && nodemon -e js,json,graphql,ts index.ts",
+    "start:prod": "export $(cat .env.prod | xargs) && nodemon -e js,json,graphql,ts index.ts",
     "mock": "json-server mock/mock.js  --routes mock/routes.json",
     "buildSchema": "ts-node buildSchema.ts"
   },

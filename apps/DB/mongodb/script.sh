@@ -16,3 +16,4 @@
 
 set -e
 mongoimport --host localhost --db test --collection ratings --drop --file /app/data/ratings_data.json
+# mongoimport --uri mongodb+srv://babyzone2004:605959@cluster0.lgbzn.mongodb.net/test --collection ratings --file /app/data/ratings_data.json

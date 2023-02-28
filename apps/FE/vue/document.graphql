@@ -3,3 +3,12 @@ query score($userId: String!) {
     value
   }
 }
+
+query ranks {
+  ranks {
+    ranks {
+      id
+      value
+    }
+  }
+}
