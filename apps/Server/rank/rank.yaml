@@ -43,12 +43,12 @@ spec:
         version: v1
     spec:
       # serviceAccountName: bookinfo-rank
-      nodeSelector:
-        cloud.google.com/compute-class: Scale-Out
-        kubernetes.io/arch: arm64
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
       containers:
       - name: rank
-        image: asia-east1-docker.pkg.dev/wood-378110/wodd/rank:v1
+        image: us-central1-docker.pkg.dev/wood-378110/wood/rank-amd64:v1
         imagePullPolicy: IfNotPresent
         resources:
           requests:

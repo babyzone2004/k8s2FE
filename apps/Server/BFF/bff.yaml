@@ -37,20 +37,10 @@ spec:
         app: bff
         version: v1
     spec:
-      nodeSelector:
-        cloud.google.com/compute-class: Scale-Out
-        kubernetes.io/arch: arm64
       containers:
       - name: bff
-        image: asia-east1-docker.pkg.dev/wood-378110/wodd/bff:v4
+        image: us-central1-docker.pkg.dev/wood-378110/wood/bff-amd64:v2
         imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            cpu: "250m"
-            memory: "128Mi"
-          limits:
-            cpu: "250m"
-            memory: "128Mi"
         ports:
         - containerPort: 8099
         env:

@@ -114,6 +114,7 @@ dispatcher.onGet(/^\/score\/[0-9]*/, function (req, res) {
                 },
                 code: 200,
               };
+              console.log("result", result);
               res.writeHead(200, { "Content-type": "application/json" });
               res.end(JSON.stringify(result));
             }

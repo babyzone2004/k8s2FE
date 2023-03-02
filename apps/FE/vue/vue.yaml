@@ -37,12 +37,12 @@ spec:
         app: vue
         version: v1
     spec:
-      nodeSelector:
-        cloud.google.com/compute-class: Scale-Out
-        kubernetes.io/arch: arm64
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
       containers:
       - name: vue
-        image: asia-east1-docker.pkg.dev/wood-378110/wodd/vue:v1
+        image: us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -53,4 +53,7 @@ spec:
             memory: "128Mi"
         ports:
         - containerPort: 8099
+        env:
+          - name: CMD_RUN_ENV
+            value: "start:prod"
 ---

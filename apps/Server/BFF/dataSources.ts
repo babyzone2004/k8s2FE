@@ -30,7 +30,6 @@ class BaseAPI extends RESTDataSource {
 
   async getScore(userId: string): Promise<Score> {
     let res = await this.get('score/' + userId);
-    console.log('res', res);
     res = res.data;
     // 此处对res进行数据格式化
     // ...
@@ -46,7 +45,6 @@ class RankApi extends BaseAPI{
   }
   async getRank(): Promise<Ranks> {
     let res = await this.get('');
-    console.log('res', res);
     res = res.data;
     // 此处对res进行数据格式化
     let arr = {
@@ -59,7 +57,6 @@ class RankApi extends BaseAPI{
         userId: '0'
       });
     });
-    console.log('arr', arr);
     return arr;
   }
 }
