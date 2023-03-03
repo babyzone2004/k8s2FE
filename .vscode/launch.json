@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "node-terminal",
+            "name": "bff",
+            "request": "launch",
+            "command": "pnpm run start",
+            "cwd": "${workspaceFolder}/apps/Server/BFF"
+        },
+        {
+            "type": "node-terminal",
             "name": "game",
             "request": "launch",
             "command": "pnpm run start",

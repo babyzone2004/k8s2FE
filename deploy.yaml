@@ -1,0 +1,280 @@
+---
+##################################################################################################
+# vue service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue
+  labels:
+    app: vue
+    service: vue
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    name: http
+    targetPort: 80
+  selector:
+    app: vue
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-v1
+  labels:
+    app: vue
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vue
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: vue
+        version: v1
+    spec:
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
+      containers:
+      - name: vue
+        image: us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v4
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 8099
+        env:
+          - name: CMD_RUN_ENV
+            value: "start:prod"
+---
+
+---
+##################################################################################################
+# bff service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff
+  labels:
+    app: bff
+    service: bff
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8099
+    name: http
+    targetPort: 8099
+  selector:
+    app: bff
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-v1
+  labels:
+    app: bff
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: bff
+        version: v1
+    spec:
+      containers:
+      - name: bff
+        image: us-central1-docker.pkg.dev/wood-378110/wood/bff-amd64:v2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8099
+        env:
+          - name: CMD_RUN_ENV
+            value: "start:prod"
+---
+---
+##################################################################################################
+# game service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: game
+  labels:
+    app: game
+    service: game
+spec:
+  ports:
+  - port: 9080
+    name: http
+  selector:
+    app: game
+---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: bookinfo-game
+#   labels:
+#     account: game
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-v1
+  labels:
+    app: game
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: game
+        version: v1
+    spec:
+      # serviceAccountName: bookinfo-game
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
+      containers:
+      - name: game
+        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v10
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 9080
+        env:
+        - name: MONGO_DB_URL
+          value: "mongodb+srv://babyzone2004:605959@cluster0.lgbzn.mongodb.net/test"
+        - name: SERVICE_VERSION
+          value: "v2"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-v2
+  labels:
+    app: game
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: game
+        version: v2
+    spec:
+      # serviceAccountName: bookinfo-game
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
+      containers:
+      - name: game
+        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v10
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 9080
+        env:
+        - name: SERVICE_VERSION
+          value: "v1"
+        - name: RANK
+          value: "http://rank:9081"
+---
+---
+##################################################################################################
+# rank service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: rank
+  labels:
+    app: rank
+    service: rank
+spec:
+  ports:
+  - port: 9081
+    name: http
+  selector:
+    app: rank
+---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: bookinfo-rank
+#   labels:
+#     account: rank
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rank-v1
+  labels:
+    app: rank
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rank
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: rank
+        version: v1
+    spec:
+      # serviceAccountName: bookinfo-rank
+      # nodeSelector:
+      #   cloud.google.com/compute-class: Scale-Out
+      #   kubernetes.io/arch: arm64
+      containers:
+      - name: rank
+        image: us-central1-docker.pkg.dev/wood-378110/wood/rank-amd64:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 9081
+---

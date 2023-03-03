@@ -1,8 +1,11 @@
-var http = require("http");
-var dispatcher = require("httpdispatcher");
+import http from "http";
+import dispatcher from "httpdispatcher";
+import fetch from "node-fetch";
+import MongoClient from "mongodb";
 
 // console.log(process.argv, process.env);
 var port = parseInt(process.argv[2]);
+var rankUri = process.env.RANK || "http://localhost:9081";
 
 var userAddedRatings = []; // used to demonstrate POST functionality
 
@@ -33,7 +36,6 @@ if (process.env.SERVICE_VERSION === "v-unhealthy") {
  * We default to using mongodb, if DB_TYPE is not set to mysql.
  */
 if (process.env.SERVICE_VERSION === "v2") {
-  var MongoClient = require("mongodb").MongoClient;
   var url = process.env.MONGO_DB_URL;
 }
 
@@ -103,13 +105,10 @@ dispatcher.onGet(/^\/score\/[0-9]*/, function (req, res) {
               );
               console.log(err);
             } else {
-              if (data[0]) {
-                score = data[0].rating;
-              }
               var result = {
                 data: {
                   id: "mongo",
-                  value: score,
+                  value: data[0].rating,
                   userId: userId,
                 },
                 code: 200,
@@ -175,9 +174,10 @@ function putLocalReviews(productId, ratings) {
   return getLocalReviews(productId);
 }
 
-function getLocalReviewsSuccessful(res, productId) {
+async function getLocalReviewsSuccessful(res, productId) {
+  let res1 = await getLocalReviews(productId);
   res.writeHead(200, { "Content-type": "application/json" });
-  res.end(JSON.stringify(getLocalReviews(productId)));
+  res.end(JSON.stringify(res1));
 }
 
 function getLocalReviewsServiceUnavailable(res) {
@@ -185,15 +185,16 @@ function getLocalReviewsServiceUnavailable(res) {
   res.end(JSON.stringify({ error: "Service unavailable" }));
 }
 
-function getLocalReviews(userId) {
-  if (typeof userAddedRatings[userId] !== "undefined") {
-    return userAddedRatings[userId];
-  }
+async function getLocalReviews(userId) {
+  let response = await fetch(rankUri);
+  let res = await response.json();
+  console.log("res", res);
+  res = res.data[1];
   return {
     data: {
-      id: "mongo",
-      value: "155",
-      userId: "100",
+      id: "local",
+      value: res.rating,
+      userId: res._id,
     },
     code: 200,
   };
@@ -201,7 +202,7 @@ function getLocalReviews(userId) {
 
 function handleRequest(request, response) {
   try {
-    console.log(request.method + " " + request.url);
+    console.log(request.method + " " + request.url, request.headers);
     dispatcher.dispatch(request, response);
   } catch (err) {
     console.log(err);

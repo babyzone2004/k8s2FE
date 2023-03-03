@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js 9080"
   },
   "dependencies": {
     "httpdispatcher": "1.0.0",
-    "mongodb": "^3.6.0"
+    "mongodb": "^3.6.0",
+    "node-fetch": "^3.3.0",
+    "skywalking-backend-js": "^0.6.0"
   },
   "keywords": [],
   "author": "",
