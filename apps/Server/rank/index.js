@@ -8,6 +8,7 @@ const port = parseInt(process.argv[2]);
 const url = "mongodb+srv://babyzone2004:605959@cluster0.lgbzn.mongodb.net/test";
 
 const server = http.createServer(async (req, res) => {
+  console.log(req.method + " " + req.url, req.headers);
   console.time("redis");
   const rank = await redis.get("rank");
   console.timeEnd("redis");

@@ -4,8 +4,11 @@
 # RUN npm install -g pnpm && npm cache clean -f && pnpm i && pnpm run build
 
 FROM nginx:1.23.3-alpine-slim
+USER root
+# RUN apk update && apk add --no-cache strace
 # 复制nginx配置文件service.conf
-# COPY /packages/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 # 复制静态文件到/usr/share/nginx/html，要求server.conf中配置的目录为/usr/share/nginx/html
 # COPY --from=builder /home/build/apps/FE/vue/dist/. /usr/share/nginx/html
 COPY ./apps/FE/vue/dist/. /usr/share/nginx/html

@@ -1,8 +1,8 @@
 import http from "http";
 import dispatcher from "httpdispatcher";
-import fetch from "node-fetch";
 import MongoClient from "mongodb";
 
+let headers = {};
 // console.log(process.argv, process.env);
 var port = parseInt(process.argv[2]);
 var rankUri = process.env.RANK || "http://localhost:9081";
@@ -186,7 +186,7 @@ function getLocalReviewsServiceUnavailable(res) {
 }
 
 async function getLocalReviews(userId) {
-  let response = await fetch(rankUri);
+  let response = await fetch(rankUri, { headers });
   let res = await response.json();
   console.log("res", res);
   res = res.data[1];
@@ -202,7 +202,30 @@ async function getLocalReviews(userId) {
 
 function handleRequest(request, response) {
   try {
-    console.log(request.method + " " + request.url, request.headers);
+    let inHeaders = request.headers;
+    console.log(request.method + " " + request.url, inHeaders);
+    let incoming_headers = [
+      "x-request-id",
+      "x-ot-span-context",
+      "x-datadog-trace-id",
+      "x-datadog-parent-id",
+      "x-datadog-sampling-priority",
+      "traceparent",
+      "tracestate",
+      "x-cloud-trace-context",
+      "grpc-trace-bin",
+      "sw8",
+      "user-agent",
+      "cookie",
+      "authorization",
+      "jwt",
+    ];
+    incoming_headers.forEach((elem) => {
+      if (inHeaders[elem]) {
+        headers[elem] = inHeaders[elem];
+      }
+    });
+
     dispatcher.dispatch(request, response);
   } catch (err) {
     console.log(err);

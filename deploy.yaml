@@ -57,7 +57,6 @@ spec:
           - name: CMD_RUN_ENV
             value: "start:prod"
 ---
-
 ---
 ##################################################################################################
 # bff service
@@ -157,7 +156,7 @@ spec:
       #   kubernetes.io/arch: arm64
       containers:
       - name: game
-        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v10
+        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v12
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -266,7 +265,7 @@ spec:
       #   kubernetes.io/arch: arm64
       containers:
       - name: rank
-        image: us-central1-docker.pkg.dev/wood-378110/wood/rank-amd64:v1
+        image: us-central1-docker.pkg.dev/wood-378110/wood/rank-amd64:v4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
