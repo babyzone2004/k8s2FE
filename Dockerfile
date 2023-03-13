@@ -3,7 +3,7 @@ USER root
 COPY ./ /usr/local
 RUN apk update && apk add --no-cache supervisor lsof git curl zsh redis \
   && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
-  && npm install -g pnpm && npm cache clean -f \
+  && npm install -g pnpm && npm i -g nrm && npm cache clean -f \
   && cd /usr/local \
   && pnpm i
 

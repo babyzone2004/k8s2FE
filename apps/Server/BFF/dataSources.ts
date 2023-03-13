@@ -14,7 +14,8 @@ class BaseAPI extends RESTDataSource {
   }
 
   override willSendRequest (request: RequestOptions) {
-    // request.headers.set('Authorization', 'this.context.token');
+    console.log('request', request.headers);
+    // request.headers.set('x-request-id', '');
   }
 
   override async didReceiveResponse (response: Response, request: Request) {
@@ -29,7 +30,8 @@ class BaseAPI extends RESTDataSource {
   }
 
   async getScore(userId: string): Promise<Score> {
-    let res = await this.get('score/' + userId);
+    // console.log('this.context.customHeaders', this.context);
+    let res = await this.get('score/' + userId, undefined, this.context.customHeaders);
     res = res.data;
     // 此处对res进行数据格式化
     // ...
@@ -65,7 +67,8 @@ export interface Context {
   dataSources: {
     baseApi: BaseAPI,
     rankApi: RankApi
-  };
+  },
+  req: any
 }
 
 export default function () {

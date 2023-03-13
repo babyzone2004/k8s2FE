@@ -186,6 +186,7 @@ function getLocalReviewsServiceUnavailable(res) {
 }
 
 async function getLocalReviews(userId) {
+  console.log("fetch headers", headers);
   let response = await fetch(rankUri, { headers });
   let res = await response.json();
   console.log("res", res);

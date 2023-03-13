@@ -42,7 +42,7 @@ spec:
       #   kubernetes.io/arch: arm64
       containers:
       - name: vue
-        image: us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v4
+        image: us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v8
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -52,7 +52,7 @@ spec:
             cpu: "250m"
             memory: "128Mi"
         ports:
-        - containerPort: 8099
+        - containerPort: 80
         env:
           - name: CMD_RUN_ENV
             value: "start:prod"
@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
       - name: bff
-        image: us-central1-docker.pkg.dev/wood-378110/wood/bff-amd64:v2
+        image: us-central1-docker.pkg.dev/wood-378110/wood/bff-amd64:v3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8099
@@ -198,7 +198,7 @@ spec:
       #   kubernetes.io/arch: arm64
       containers:
       - name: game
-        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v10
+        image: us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v11
         imagePullPolicy: IfNotPresent
         resources:
           requests:

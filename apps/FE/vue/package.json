@@ -16,6 +16,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@sentry/tracing": "^7.42.0",
+    "@sentry/vue": "^7.42.0",
+    "js-cookie": "^3.0.1",
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

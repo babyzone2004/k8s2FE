@@ -8,7 +8,14 @@ async function bootstrap () {
   // Create GraphQL server
   const server = new ApolloServer({
     schema,
-    dataSources
+    dataSources,
+    context: ({ req }) => ({
+      customHeaders: {
+        headers: {
+          'x-request-id': req.headers['x-request-id']
+        },
+      },
+    }),
   });
   // Start the server
   const { url } = await server.listen({
