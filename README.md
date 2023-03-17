@@ -12,24 +12,23 @@
 ## 开发
 
 1. mac 安装 docker，打开 vscode，通过左下角 Dev Container 开启 docker 开发环境
-   1. 首次安装，先build镜像 `docker build -t dev:v1 .`
-   2. 开启docker环境后，根据提示安装远程vscode插件
-
+   1. 首次安装，先 build 镜像 `docker build -t dev:v1 .`
+   2. 开启 docker 环境后，根据提示安装远程 vscode 插件
 
 ## 部署
 
-1. m1机器默认生成arm镜像，云端机器一般是amd64环境，需要通过buildx命令生成amd64镜像并上传
+1. m1 机器默认生成 arm 镜像，云端机器一般是 amd64 环境，需要通过 buildx 命令生成 amd64 镜像并上传
 
    1. `docker buildx build --platform linux/amd64,linux/arm64 --push -t us-central1-docker.pkg.dev/wood-378110/wood/game-amd64:v3 .   `
-   2. 在子repo执行并上传，vue层比较特殊，为了节省时间，在本地执行pnpm build打包，然后在跟目录执行：`docker buildx build -f Dockerfile-vue --platform linux/amd64,linux/arm64 --push -t us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v6 .`
+   2. 在子 repo 执行并上传，vue 层比较特殊，为了节省时间，在本地执行 pnpm build 打包，然后在跟目录执行：`docker buildx build -f Dockerfile-vue --platform linux/amd64,linux/arm64 --push -t us-central1-docker.pkg.dev/wood-378110/wood/vue-amd64:v6 .`
 
-2. 部署istio
+2. 部署 istio
 
    1. `istioctl install --set profile=demo`。[安装地址](https://istio.io/latest/zh/docs/setup/install/istioctl/)
 
-   2. 如果需要配置skywalking，执行：istioctl upgrade --set profile=demo -f tracing.yaml
+   2. 如果需要配置 skywalking，执行：istioctl upgrade --set profile=demo -f tracing.yaml
 
-      1. 或者1、2步骤合并：`istioctl install --set profile=demo -f tracing.yaml`
+      1. 或者 1、2 步骤合并：`istioctl install --set profile=demo -f tracing.yaml`
 
       2. 配置打点频率：
 
@@ -46,9 +45,9 @@
          EOF
          ```
 
-3. 执行 kubectl 部署服务：`kubectl apply -f deploy.yaml`，需要登录pod操作可以执行：`kubectl exec --stdin --tty bff-v1-7fd5b4889c-z67cm -- /bin/sh`
+3. 执行 kubectl 部署服务：`kubectl apply -f deploy.yaml`，需要登录 pod 操作可以执行：`kubectl exec --stdin --tty bff-v1-7fd5b4889c-z67cm -- /bin/sh`
 
-4. 配置网关、VirtualService、DestinationRule。注意这里不用HTTPRoute方案
+4. 配置网关、VirtualService、DestinationRule。注意这里不用 HTTPRoute 方案
 
    1. `kubectl apply -f gateway.yaml`
    2. kubectl apply -f vs.yaml
@@ -56,8 +55,8 @@
 
 5. 配置可视化：
 
-   1. `kubectl apply -f ./addons/`   
-   2.  `kubectl apply -f ./addons/extras/skywalking.yaml`
+   1. `kubectl apply -f ./addons/`
+   2. `kubectl apply -f ./addons/extras/skywalking.yaml`
 
 ## 可视化
 
@@ -65,4 +64,3 @@
 
 1. `istioctl dashboard skywalking`
 2. `istioctl dashboard kiali`
-
